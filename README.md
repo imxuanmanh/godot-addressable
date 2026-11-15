@@ -14,6 +14,8 @@ an optional C# facade is provided in the `GodotAddressables` namespace.
 addressable/                       # Any local checkout name is fine.
   LICENSE
   README.md
+  project.godot                    # Open this to develop and run the addon.
+  demo/addressables/api/           # One log-only data-Resource example.
   addons/
     addressables/                  # Keep this addon path inside your Godot project.
       plugin.cfg
@@ -35,8 +37,26 @@ serve different purposes and do not need to match.
    omit the optional `dotnet/` folder; a .NET editor can otherwise try to export
    C# files without a matching solution.
 
-This repository intentionally contains no application `project.godot`. The test
-runner generates isolated projects, including one for the C# facade.
+## Develop in this repository
+
+1. Open the root [project.godot](project.godot) with Godot 4.6 or newer 4.x.
+2. Wait for import; the Addressables editor plugin is already enabled.
+3. Select [demo/addressables/api/build.tres](demo/addressables/api/build.tres),
+   then **Project > Tools > Build selected Addressable Content**.
+4. Press **F5**, or run [main.tscn](demo/addressables/api/main.tscn) with F6.
+   Read Output: the example prints `PASS API flow` and exits.
+
+Edit `addons/addressables/` directly. The example uses that exact source through
+`res://addons/addressables/`; no addon copy or external application project is
+needed for this development loop. The example is GDScript and plain Resource data;
+the optional C# facade is validated by the isolated .NET integration suite.
+
+See the [short API example guide](demo/addressables/README.md). Generated catalogs,
+PCKs, caches and logs stay outside Git. A fresh clone needs the content-build step
+before its first run; repeat it after changing the sample data/references.
+
+For installation into another application, copy only `addons/addressables/`.
+The root project and `demo/` are development files, not addon dependencies.
 
 ## Quick start
 

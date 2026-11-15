@@ -7,6 +7,7 @@ It uses an Ubuntu runner with Python and no application secrets. It checks:
 
 - Repository/addon MIT licenses and experimental version labeling.
 - The `addons/addressables/` installation layout and plugin metadata.
+- The root development project's entry scene, enabled plugin and API example files.
 - Python syntax without importing or executing the native test runner.
 - Local Markdown links and balanced fenced code blocks.
 - English source comments/documentation and absence of original application branding.

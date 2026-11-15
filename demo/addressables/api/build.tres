@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AddressablesBuild" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://addons/addressables/editor/content_build.gd" id="build"]
+[ext_resource type="Script" path="res://addons/addressables/editor/content_group.gd" id="group"]
+[ext_resource type="Script" path="res://addons/addressables/runtime/asset_reference.gd" id="reference"]
+[ext_resource type="Resource" path="res://demo/addressables/api/references/sword.tres" id="sword"]
+[ext_resource type="Resource" path="res://demo/addressables/api/references/shield.tres" id="shield"]
+
+[sub_resource type="Resource" id="items"]
+script = ExtResource("group")
+group_name = "items"
+assets = Array[ExtResource("reference")]([ExtResource("sword"), ExtResource("shield")])
+
+[resource]
+script = ExtResource("build")
+groups = Array[ExtResource("group")]([SubResource("items")])
+output_directory = "res://demo/addressables/api/content"
+target_platform = "Windows"

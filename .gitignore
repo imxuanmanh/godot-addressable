@@ -5,6 +5,7 @@
 **/obj/
 *.pck
 *.pck.part
+/demo/addressables/api/content/
 
 # Test workspaces may include a staged engine, generated projects and caches.
 **/.test_work/

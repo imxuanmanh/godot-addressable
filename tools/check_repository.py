@@ -11,7 +11,7 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 IGNORED = {".git", ".godot", ".test_work", ".test_tools", "__pycache__"}
-TEXT_SUFFIXES = {".md", ".gd", ".cs", ".txt", ".py", ".cfg", ".yml"}
+TEXT_SUFFIXES = {".md", ".gd", ".cs", ".txt", ".py", ".cfg", ".yml", ".godot", ".tres", ".tscn"}
 BRANDING = re.compile("ta" + "nk|bang" + "bang", re.IGNORECASE)
 LINK = re.compile(r"!?\[[^\]\n]*\]\(([^)\n]+)\)")
 
@@ -52,6 +52,12 @@ def main() -> None:
         assert "0.1.0" in text and "experimental" in text.lower(), readme
     for directory in ("runtime", "editor", "dotnet", "tests", "docs"):
         assert (addon / directory).is_dir(), directory
+
+    project = (ROOT / "project.godot").read_text(encoding="utf-8")
+    assert 'run/main_scene="res://demo/addressables/api/main.tscn"' in project
+    assert 'enabled=PackedStringArray("res://addons/addressables/plugin.cfg")' in project
+    for name in ("main.tscn", "main.gd", "item.gd", "build.tres"):
+        assert (ROOT / "demo/addressables/api" / name).is_file(), name
 
     checked = 0
     for path in ROOT.rglob("*"):

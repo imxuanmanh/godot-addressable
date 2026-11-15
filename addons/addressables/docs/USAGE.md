@@ -343,8 +343,9 @@ not wrap predownload or scopes.
 
 ## 10. Build and checked export from the command line
 
-Run against your application project, not the standalone addon checkout (which
-has no `project.godot`). Example PowerShell from the application project root:
+Run against the application project you intend to export. The repository's
+root project is a minimal development host with an API example, not your shipping
+application. Example PowerShell from an application project root:
 
 ```powershell
 $godot = 'PATH/TO/Godot.exe'

@@ -17,7 +17,10 @@ for public contracts. Version 0.1.0 is experimental.
 The repository root additionally contains README, LICENSE, CHANGELOG, CI.md,
 Git ignore/line-ending rules, `.github/workflows/ci.yml` and
 `tools/check_repository.py`. They package/check the standalone repository rather
-than participating in runtime loading. No root project.godot is required.
+than participating in runtime loading. The root `project.godot` is a
+development host; `demo/addressables/api/` contains one log-only Resource-data
+example. It uses the same addon source in this repository. Neither the root
+project nor the example needs to be copied when installing the addon elsewhere.
 
 ## Runtime files
 

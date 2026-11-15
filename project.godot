@@ -1,0 +1,14 @@
+; Development host for the addon and the log-only API example.
+config_version=5
+
+[application]
+config/name="Godot Addressable"
+run/main_scene="res://demo/addressables/api/main.tscn"
+config/features=PackedStringArray("4.6", "GL Compatibility")
+
+[editor_plugins]
+enabled=PackedStringArray("res://addons/addressables/plugin.cfg")
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

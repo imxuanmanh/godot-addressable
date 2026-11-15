@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add a root Godot development project and one log-only Resource-data API example
+  using the repository's addon source directly.
+
 - Accept same-major content built with an older minor on newer engine readers.
 - Keep validation for newer producers, different majors/platforms and malformed versions.
 - Select the test C# SDK from the engine version; add version-admission and
