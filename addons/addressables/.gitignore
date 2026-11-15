@@ -1,0 +1,5 @@
+# Generated test projects, staged tools and Python caches are not distributed.
+.test_work/
+.test_tools/
+__pycache__/
+*.pyc

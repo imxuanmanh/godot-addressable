@@ -1,0 +1,21 @@
+# Godot and build output.
+.godot/
+**/.godot/
+**/bin/
+**/obj/
+*.pck
+*.pck.part
+
+# Test workspaces may include a staged engine, generated projects and caches.
+**/.test_work/
+**/.test_tools/
+**/__pycache__/
+*.py[cod]
+*.log
+
+# Editor and operating-system files.
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+.source-baseline.json

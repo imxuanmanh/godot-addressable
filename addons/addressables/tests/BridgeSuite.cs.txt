@@ -1,0 +1,65 @@
+// Copied to BridgeSuite.cs in an isolated .NET project by the test runner.
+// The .cs.txt suffix prevents the fixture from compiling into consuming applications.
+// Checks Inspector hints, typed/shared loading, cancellation and shutdown.
+using System;
+using System.Threading;
+using Godot;
+using GodotAddressables;
+
+public partial class BridgeSuite : Node
+{
+    [Export(PropertyHint.ResourceType, "AddressableReference")]
+    public Resource? AssetReference { get; set; }
+
+    public override async void _Ready()
+    {
+        try
+        {
+            var inspectorHint = false;
+            foreach (var property in GetPropertyList())
+                if (property["name"].AsString() == nameof(AssetReference))
+                    inspectorHint = property["hint_string"].AsString() == "AddressableReference";
+            if (!inspectorHint) throw new Exception("Null C# reference field lost its Inspector type hint.");
+            var catalog = Json.ParseString(FileAccess.GetFileAsString("res://catalog.json")).AsGodotDictionary();
+            using var client = AddressablesClient.Create(this, catalog, useSourceAssets: true);
+            var script = GD.Load<GDScript>("res://addons/addressables/runtime/asset_reference.gd");
+            AssetReference = (Resource)script.New().AsGodotObject();
+            AssetReference.Set("key", "asset/a");
+            AssetReference.Set("source_path", "res://fixtures/a.tscn");
+            using var first = client.Load<PackedScene>(AssetReference);
+            using var second = client.Load<PackedScene>("asset/a");
+            var scene = await first.GetAsync();
+            if (scene != await second.GetAsync()) throw new Exception("C# handles did not share the resource.");
+            first.Dispose();
+            if (await second.GetAsync() is null) throw new Exception("Other C# owner was released.");
+            using var instance = scene.Instantiate();
+            if (instance.GetNode<Sprite2D>("Body").Texture is null) throw new Exception("Missing imported texture.");
+            using var cancellation = new CancellationTokenSource();
+            cancellation.Cancel();
+            using var canceled = client.Load<PackedScene>("asset/b");
+            try
+            {
+                await canceled.GetAsync(cancellation.Token);
+                throw new Exception("Cancellation was ignored.");
+            }
+            catch (OperationCanceledException) { }
+            using var wrong = client.Load<AudioStream>("asset/a");
+            try
+            {
+                await wrong.GetAsync();
+                throw new Exception("Wrong resource type was accepted.");
+            }
+            catch (InvalidOperationException) { }
+            second.Dispose();
+            instance.Free();
+            await client.ShutdownAsync();
+            GD.Print("PASS C# bridge suite");
+            GetTree().Quit();
+        }
+        catch (Exception exception)
+        {
+            GD.PushError("CHECK FAILED: " + exception);
+            GetTree().Quit(1);
+        }
+    }
+}
