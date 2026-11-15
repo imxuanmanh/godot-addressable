@@ -6,7 +6,8 @@ references and build settings and uses the addon's source from this repository.
 
 ## Build and run
 
-1. Open the repository's root `project.godot` and wait for import.
+1. Open the root `project.godot` with **Godot .NET 4.6.3** and wait for import.
+   `dotnet build GodotAddressable.csproj` builds the C# facade; the example stays GDScript.
 2. Select `api/build.tres`, then **Project > Tools > Build selected Addressable Content**.
 3. Press F5, or open `api/main.tscn` and press F6. Read Output; it exits after `PASS API flow`.
 

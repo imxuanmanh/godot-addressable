@@ -39,7 +39,8 @@ serve different purposes and do not need to match.
 
 ## Develop in this repository
 
-1. Open the root [project.godot](project.godot) with Godot 4.6 or newer 4.x.
+1. Open the root [project.godot](project.godot) with **Godot .NET 4.6.3**;
+   install .NET SDK 8 for C# development.
 2. Wait for import; the Addressables editor plugin is already enabled.
 3. Select [demo/addressables/api/build.tres](demo/addressables/api/build.tres),
    then **Project > Tools > Build selected Addressable Content**.
@@ -48,8 +49,16 @@ serve different purposes and do not need to match.
 
 Edit `addons/addressables/` directly. The example uses that exact source through
 `res://addons/addressables/`; no addon copy or external application project is
-needed for this development loop. The example is GDScript and plain Resource data;
-the optional C# facade is validated by the isolated .NET integration suite.
+needed for this development loop. The single example remains GDScript and
+plain Resource data. [GodotAddressable.csproj](GodotAddressable.csproj) compiles
+the C# facade directly with Godot.NET.Sdk 4.6.3 and net8.0; `global.json` selects
+an installed .NET 8 SDK. Run `dotnet build GodotAddressable.csproj` from the root,
+or use the .NET editor's build action. Generated test-project copies are excluded
+from this build. The broader integration suite also exercises the C# facade.
+
+This pins the development host to 4.6.3; the addon's documented newer-reader
+compatibility is unchanged. To develop with another .NET engine version, match
+the project SDK to that editor version.
 
 See the [short API example guide](demo/addressables/README.md). Generated catalogs,
 PCKs, caches and logs stay outside Git. A fresh clone needs the content-build step

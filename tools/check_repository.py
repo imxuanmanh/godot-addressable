@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import ast
+import json
+import xml.etree.ElementTree as ET
 import configparser
 import re
 from pathlib import Path
@@ -58,6 +60,13 @@ def main() -> None:
     assert 'enabled=PackedStringArray("res://addons/addressables/plugin.cfg")' in project
     for name in ("main.tscn", "main.gd", "item.gd", "build.tres"):
         assert (ROOT / "demo/addressables/api" / name).is_file(), name
+
+    csproj = ET.parse(ROOT / "GodotAddressable.csproj").getroot()
+    assert csproj.attrib["Sdk"] == "Godot.NET.Sdk/4.6.3"
+    assert csproj.findtext("PropertyGroup/TargetFramework") == "net8.0"
+    assert 'project/assembly_name="GodotAddressable"' in project
+    assert '"4.6", "C#"' in project
+    assert json.loads((ROOT / "global.json").read_text())["sdk"]["version"].startswith("8.0.")
 
     checked = 0
     for path in ROOT.rglob("*"):

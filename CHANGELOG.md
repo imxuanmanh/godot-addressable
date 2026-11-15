@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Use Godot .NET 4.6.3 and .NET SDK 8 for the development host; compile the
+  existing C# facade from the root project without adding another demo.
+
 - Add a root Godot development project and one log-only Resource-data API example
   using the repository's addon source directly.
 
