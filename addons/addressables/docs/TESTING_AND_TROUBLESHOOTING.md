@@ -7,7 +7,8 @@ Version 0.1.0 remains experimental even when this suite passes.
 ## Prerequisites and commands
 
 - Python 3.10+; standard library only.
-- Godot .NET 4.6.3 distribution with the adjacent GodotSharp directory intact.
+- Godot .NET distribution with the adjacent GodotSharp directory intact;
+  4.6.3 and 4.7.2 have been validated on Windows.
 - .NET SDK 8 for C# compilation/runtime checks; matching Godot.NET.Sdk packages.
 - Permission to start a local HTTP server and connect to loopback.
 
@@ -25,7 +26,8 @@ path to your installation; no developer's absolute engine path is required.
 
 The runner derives source locations from itself and creates projects under
 `addons/addressables/.test_work/`. It includes separate profiles/cache, generated
-content and a clean client. The test C# project uses matching local engine NuGet
+content and a clean client. The C# fixture reads the executable's numeric
+version to select its Godot.NET.Sdk. It uses matching local engine NuGet
 packages. Existing application projects and global NuGet settings are not changed.
 
 The suite creates a Windows Desktop export preset and enables its C# branch based
@@ -92,7 +94,7 @@ nodes, pools, audio or other native/C# Resource references.
 | Dragged reference .tres loads a container | Drop targets are not unwrapped; programmatically share the contained metadata |
 | Unknown address | Missing catalog key; source_path is not a runtime fallback |
 | Cannot configure again | Service already configured/used; create a fresh service |
-| Content engine/platform mismatch | Rebuild for actual engine minor and target; do not rewrite metadata to hide it |
+| Content engine/platform mismatch | Same major and reader minor >= producer are required; platform must match. Upgrade the reader or rebuild compatible content; do not disguise producer metadata |
 | Source test works, clean client fails | Missing imported payload/base dependency; rebuild and inspect closure |
 | Resource missing | Wrong catalog, missing base code/data, or unmounted/incomplete pack |
 | HTTP 3xx fails | Redirects are disabled; use direct HTTPS files |
@@ -114,6 +116,32 @@ nodes, pools, audio or other native/C# Resource references.
 | Export says stale metadata/content | Rebuild after changes; use checked wrapper and reject old output |
 | C# SDK not found | Check .NET 8, matching GodotSharp offline feed and complete Mono distribution |
 | C# export requested in GDScript-only project | Omit optional dotnet folder or supply a valid C# project |
+
+## Cross-minor content regression
+
+The native suite tests metadata admission for same/older/newer minors, different
+majors, malformed versions and omitted engine metadata on each host engine.
+Actual cross-minor PCK compatibility is a separate check:
+
+1. Preserve a successful older engine's content directory without changing its
+   catalog, PCKs or hashes.
+2. Prepare/import a clean client using the updated addon and newer engine. It
+   must contain required base scripts but no optional target scenes/textures.
+   The native runner's `.test_work/remote` fixture can be used after a full run.
+3. Run the dedicated probe, passing the untouched catalog and content root:
+
+```text
+NEWER_GODOT --headless --path CLEAN_CLIENT --script res://addons/addressables/tests/compatibility_probe.gd -- OLDER_CONTENT/catalog.json OLDER_CONTENT
+```
+
+The probe verifies this is an older producer minor of the same major, confirms
+the client has no target sources, configures without modifying catalog metadata,
+loads every target, instantiates scenes, releases handles and drains shutdown.
+Reject any engine errors as well as a nonzero exit.
+
+Verified locally: complete native/C# suites on 4.6.3 and 4.7.2, plus unchanged
+4.6.3-built demo scenes/imported shared texture loaded by 4.7.2. This does not
+certify arbitrary future minors or all import formats/platforms.
 
 ## Manual validation before a real release
 

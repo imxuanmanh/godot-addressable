@@ -164,6 +164,23 @@ func _run() -> void:
 	mutated = catalog.duplicate(true)
 	mutated.platform = "WrongPlatform"
 	check(not Catalog.validate(mutated).is_empty(), "reject incompatible platform")
+	var engine := Engine.get_version_info()
+	mutated = catalog.duplicate(true)
+	mutated.engine = "%s.%s" % [engine.major, engine.minor]
+	check(Catalog.validate(mutated).is_empty(), "accept matching engine minor")
+	mutated.engine = "%s.%s" % [engine.major, engine.minor - 1]
+	check(Catalog.validate(mutated).is_empty(), "accept older content on a newer minor")
+	mutated.engine = "%s.%s" % [engine.major, engine.minor + 1]
+	check(not Catalog.validate(mutated).is_empty(), "reject content requiring a newer engine")
+	mutated.engine = "%s.0" % [engine.major + 1]
+	check(not Catalog.validate(mutated).is_empty(), "reject a different future major")
+	mutated.engine = "%s.0" % [engine.major - 1]
+	check(not Catalog.validate(mutated).is_empty(), "reject a different older major")
+	for invalid_version in [null, 4.6, 4, "", "4", "4.6.3", "4.x", "-4.6", "4.-1", "04.6", "4.06", "4.+6", "4. 6"]:
+		mutated.engine = invalid_version
+		check(not Catalog.validate(mutated).is_empty(), "reject malformed engine metadata: " + str(invalid_version))
+	mutated.erase("engine")
+	check(Catalog.validate(mutated).is_empty(), "omitted engine defaults to current host")
 	for frame in range(3):
 		await tree.process_frame
 	print("PASS editor/build suite (%s checks)" % checks)

@@ -31,7 +31,7 @@ claim equivalent C#/export coverage.
 For a later native CI job:
 
 1. Use a Windows runner and install Python 3.10+ and .NET SDK 8.
-2. Download an official matching Godot .NET 4.6.3 distribution, preserving its
+2. Download an official matching Godot .NET distribution (validated locally: 4.6.3 and 4.7.2), preserving its
    `GodotSharp` directory and offline NuGet packages.
 3. Pass the executable explicitly to `addons/addressables/tests/run_tests.py`.
 4. Allow the test process to connect to its loopback HTTP server.

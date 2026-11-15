@@ -23,7 +23,9 @@ a local content directory or downloaded from a direct HTTPS CDN URL on demand.
 | [File guide](docs/FILE_GUIDE.md) | Every source/test file and its responsibilities |
 | [Testing and troubleshooting](docs/TESTING_AND_TROUBLESHOOTING.md) | Native suite, limits and diagnosis |
 
-Validated with Godot .NET 4.6.3 on Windows and .NET SDK 8. The integration runner
+Targets Godot 4.6 and newer 4.x; validated with Godot .NET 4.6.3 and 4.7.2
+on Windows and .NET SDK 8. Older-minor content may be read by a newer minor in the
+same major; the native PCK/resource loader still enforces format compatibility. The integration runner
 generates isolated projects; it is currently Windows oriented. Production CDN,
 mobile imports and memory budgets require testing on the intended targets.
 

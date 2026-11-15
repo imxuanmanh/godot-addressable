@@ -199,7 +199,11 @@ that catalog; it does not authenticate a hostile catalog or sandbox mounted
 content. This addon does not manage catalog signatures, access control or user
 entitlements.
 
-Generated catalogs identify the Godot major/minor and target platform. Runtime
-rejects mismatches. Correct platform metadata alone does not guarantee correct
-import artifacts: build/export with the intended engine, import profile and
-platform SDK, then validate on the real device.
+Generated catalogs identify the producer's Godot major/minor and target
+platform. Runtime accepts the same major and a reader minor at least as new as
+the producer; it rejects newer-produced content on an older reader, different
+majors, malformed versions and platform mismatches. This permits upgrading a
+client from 4.6 to 4.7 without rebuilding otherwise compatible PCKs. The native
+loader still checks actual PCK/resource formats. Metadata acceptance does not
+prove all engine changes or import artifacts are compatible. Test the intended
+engine/import profile/platform and your real content when upgrading.

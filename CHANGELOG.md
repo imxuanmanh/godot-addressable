@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Accept same-major content built with an older minor on newer engine readers.
+- Keep validation for newer producers, different majors/platforms and malformed versions.
+- Select the test C# SDK from the engine version; add version-admission and
+  real older-PCK/newer-reader probes.
+- Validate full native/C# suites on 4.6.3 and 4.7.2.
+
 ## 0.1.0 — experimental
 
 Initial standalone snapshot. The API and catalog format are not stable yet.

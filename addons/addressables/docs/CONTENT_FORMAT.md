@@ -57,7 +57,7 @@ with the real builder output, especially hash, size and imported file list:
 | Field | Contract |
 | --- | --- |
 | `schema_version` | Must be 1 |
-| `engine` | Godot major.minor; generated explicitly; runtime checks exact match |
+| `engine` | Producer Godot major.minor; same major and reader minor >= producer minor required |
 | `platform` | OS target string; generated explicitly; runtime checks host |
 | `assets` | Dictionary of nonempty keys to locations |
 | `packs` | Dictionary of pack IDs to delivery metadata |
@@ -66,6 +66,20 @@ with the real builder output, especially hash, size and imported file list:
 Engine/platform values omitted from hand-written catalogs default to the host
 during validation. Generated catalogs include them. Rely on explicit metadata
 for published content instead of treating omission as cross-platform support.
+
+The canonical engine string contains two nonnegative integer components, e.g.
+`4.6`. Patch/status suffixes belong to build/test tooling rather than this field.
+A 4.7 reader accepts `4.6` or `4.7`, but a 4.6 reader rejects `4.7`. A different
+major is rejected in either direction; platform matching remains exact.
+
+This is an admission policy, not a format converter. Godot still validates the
+real PCK/imported Resource formats and reports failures through the normal handle
+error path. Our clean-client regression loaded untouched 4.6.3-built demo scenes
+and imported textures on 4.7.2. Test representative application content before
+shipping an engine upgrade; rebuilding remains an option if formats/behavior
+changed. Do not rewrite a producer version to disguise incompatible content.
+See the official [Godot release policy](https://docs.godotengine.org/en/stable/about/release_policy.html)
+for the scope of patch/minor compatibility.
 
 ### Asset location
 

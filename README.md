@@ -113,7 +113,10 @@ There is no dependency on an application-specific model, enum, service or asset.
 
 ## Testing
 
-Run from this repository root with Python 3.10+, Godot .NET 4.6.3 and .NET SDK 8:
+The editor/runtime target Godot 4.6 and newer 4.x releases. Native suites have
+been validated on Godot .NET 4.6.3 and 4.7.2 on Windows, including C#. Later
+releases still need regression testing; this is not a guarantee for every future
+engine. Run from this repository root with Python 3.10+ and .NET SDK 8:
 
 ```text
 python tools/check_repository.py
@@ -129,6 +132,12 @@ The runner uses a local HTTP server and writes generated engine/projects/cache/
 profiles under `addons/addressables/.test_work/`. The full-pass report and logs
 are ignored by Git. Do not ship them. CI currently checks repository hygiene and
 Python syntax; see [CI.md](CI.md) for the native integration-test follow-up.
+
+Catalogs record the producer engine's major.minor. A newer minor in the same
+major is accepted; an older reader, different major or different platform is
+rejected. Unchanged 4.6.3-built demo PCKs were also loaded on 4.7.2 in a clean
+client. The native loader still validates the actual PCK/resource formats; test
+your own content when upgrading. See the [compatibility policy](addons/addressables/docs/CONTENT_FORMAT.md).
 
 ## Experimental limitations
 

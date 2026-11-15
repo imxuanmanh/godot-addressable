@@ -17,8 +17,19 @@ static func validate(data: Dictionary) -> String:
 			or not data.get("packs") is Dictionary:
 		return "Invalid catalog schema."
 	var current := Engine.get_version_info()
-	if data.get("engine", "%s.%s" % [current.major, current.minor]) != "%s.%s" % [current.major, current.minor]:
-		return "Content was built for a different Godot minor version."
+	var engine: Variant = data.get("engine", "%s.%s" % [current.major, current.minor])
+	if not engine is String:
+		return "Invalid catalog engine version; expected major.minor."
+	var version: PackedStringArray = engine.split(".")
+	if version.size() != 2 or not version[0].is_valid_int() or not version[1].is_valid_int() \
+			or str(version[0].to_int()) != version[0] or str(version[1].to_int()) != version[1] \
+			or version[0].to_int() < 0 or version[1].to_int() < 0:
+		return "Invalid catalog engine version; expected major.minor."
+	if version[0].to_int() != current.major:
+		return "Content was built for a different Godot major version."
+	# Newer readers may load older content; the native loader still validates PCK/resource formats.
+	if version[1].to_int() > current.minor:
+		return "Content requires Godot %s or newer." % engine
 	if data.get("platform", OS.get_name()) != OS.get_name():
 		return "Content was built for a different platform."
 	for key in data.assets:

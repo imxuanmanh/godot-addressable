@@ -42,6 +42,10 @@ func configure(catalog: Dictionary, content_root: String = "",
     allow_localhost_http: bool = false) -> String
 ```
 
+Engine metadata admits older/same-minor content on a same-major reader. It
+rejects a newer producer minor, different major, malformed version or different
+platform. Native PCK/resource formats are still checked while loading.
+
 Returns `""` on success or the first catalog/configuration issue. The catalog is
 deep-copied. Reconfiguration is rejected once a pack store or operations exist.
 Create a new service instead of reusing a closed one.

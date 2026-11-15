@@ -53,7 +53,8 @@ requests must be collected even after abandonment. No autoload/global app state.
 ### runtime/catalog.gd
 
 Internal RefCounted utility with static schema/path validation. Shared by builder
-and service. Rejects incompatible engine/platform, malformed locations, invalid
+and service. Accepts same-major older-minor content; rejects newer producers,
+different majors/platforms, malformed engine versions/locations, invalid
 pack hashes/sizes/files and cyclic/deep dependencies. It does not verify actual
 PCK contents or authenticate metadata.
 
@@ -153,12 +154,14 @@ as an ownership mechanism.
 | `tests/remote_suite.gd` | Clean-client local/cold/concurrent/repair/warm/offline PCK paths and actual instantiation |
 | `tests/failure_suite.gd` | Invalid content/HTTP/cancellation/timeout/mount and metadata negative cases |
 | `tests/export_probe.gd` | Verify exported base PCK filtering/catalog and external pack use |
+| `tests/compatibility_probe.gd` | Load unchanged older-minor catalog/PCKs in a clean newer-minor client; reject a probe that already contains source assets |
 | `tests/BridgeSuite.cs.txt` | C# suite fixture copied to a generated .cs project; .txt avoids compiling test code in host applications |
 
 Generated `.test_work/`, `.test_tools/` and Python caches are not distributed.
 The native runner currently assumes Windows Desktop export and detects .NET
 coverage through a Mono executable name. Static repository CI does not establish
-native engine or C# coverage.
+native engine or C# coverage. The C# fixture selects Godot.NET.Sdk from
+the executable's numeric version instead of pinning one engine version for all runs.
 
 ## Documentation files
 

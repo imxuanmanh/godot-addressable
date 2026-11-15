@@ -7,8 +7,9 @@ experimental in 0.1.0. The addon is independent of application models/services.
 ## 1. Install and prepare
 
 Copy `addons/addressables/` to your Godot project's `addons/` directory. Keep that
-installed path: scripts and the C# facade preload it. Godot .NET 4.6.3 on Windows
-with .NET SDK 8 is the currently validated environment. Python 3.10+ is needed
+installed path: scripts and the C# facade preload it. Godot .NET 4.6.3 and
+4.7.2 on Windows with .NET SDK 8 are validated environments. The addon targets
+4.6 and newer 4.x; verify later releases and your own content before shipping. Python 3.10+ is needed
 only for checked exports/repository tests; tooling uses the standard library.
 
 Enable **Project → Project Settings → Plugins → Addressables**. Wait for script

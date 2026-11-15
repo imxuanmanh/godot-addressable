@@ -108,13 +108,17 @@ texture = ExtResource("2")
 
 # Compile/run the bridge independently with the matching Godot.NET SDK and .NET 8.
 def test_dotnet(godot: Path, catalog: dict) -> None:
+    version = subprocess.run([str(godot), "--version"], capture_output=True,
+                             text=True, check=True, timeout=15).stdout.strip().split(".")[:3]
+    assert len(version) == 3 and all(part.isdigit() for part in version), "Expected a numeric engine version"
+    sdk_version = ".".join(version)
     project = WORK / "bridge"
     make_project(project, enabled=True, with_dotnet=True)
     fixtures(project)
     (project / "catalog.json").write_text(json.dumps(catalog), encoding="utf-8")
     shutil.copyfile(ADDON / "tests" / "BridgeSuite.cs.txt", project / "BridgeSuite.cs")
     (project / "BridgeTests.csproj").write_text(
-        '<Project Sdk="Godot.NET.Sdk/4.6.3"><PropertyGroup>'
+        f'<Project Sdk="Godot.NET.Sdk/{sdk_version}"><PropertyGroup>'
         '<TargetFramework>net8.0</TargetFramework><Nullable>enable</Nullable>'
         '<EnableDynamicLoading>true</EnableDynamicLoading>'
         '</PropertyGroup></Project>', encoding="utf-8")
