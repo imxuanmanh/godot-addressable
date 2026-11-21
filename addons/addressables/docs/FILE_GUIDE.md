@@ -175,6 +175,7 @@ the executable's numeric version instead of pinning one engine version for all r
 | File | Read for |
 | --- | --- |
 | `docs/USAGE.md` | Setup, target/reference authoring, complete controllers and publication workflow |
+| `docs/RECIPES.md`, `docs/RECIPES.vi.md` | Minimal copy-paste cases in English and Vietnamese |
 | `docs/ARCHITECTURE.md` | Pipeline, ownership, cancellation, lifetimes, shutdown and trust |
 | `docs/API.md` | Public signatures, defaults, results, exceptions and CLI arguments |
 | `docs/CONTENT_FORMAT.md` | Reference identity, catalog schema, PCKs, export state and cache |

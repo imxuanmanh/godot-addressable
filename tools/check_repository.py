@@ -76,7 +76,9 @@ def main() -> None:
             continue
         text = path.read_text(encoding="utf-8")
         assert not BRANDING.search(text), f"Application branding: {path}"
-        assert not any(c.isalpha() and not c.isascii() for c in text), f"Non-English text: {path}"
+        # Documentation is English except the explicitly named Vietnamese translations (*.vi.md).
+        if not path.name.endswith(".vi.md"):
+            assert not any(c.isalpha() and not c.isascii() for c in text), f"Non-English text: {path}"
         assert not re.search(r"[A-Za-z]:[/\\](?:Users|Workspace|Tools)[/\\]", text), f"Developer path: {path}"
         if path.suffix == ".py":
             ast.parse(text, filename=str(path))

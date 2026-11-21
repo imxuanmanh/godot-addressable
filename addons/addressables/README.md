@@ -17,6 +17,7 @@ a local content directory or downloaded from a direct HTTPS CDN URL on demand.
 | Guide | Contents |
 | --- | --- |
 | [Usage](docs/USAGE.md) | Installation, authoring, builds, complete GDScript/C# examples |
+| [Recipes](docs/RECIPES.md) ([Vietnamese](docs/RECIPES.vi.md)) | Minimal copy-paste cases: match load/release, shared assets, references, build |
 | [Architecture](docs/ARCHITECTURE.md) | End-to-end flow, ownership and lifecycle |
 | [API](docs/API.md) | Public methods, properties, return values and errors |
 | [Content format](docs/CONTENT_FORMAT.md) | Catalog, reference and cache formats |

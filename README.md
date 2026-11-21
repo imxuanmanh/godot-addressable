@@ -134,6 +134,7 @@ There is no dependency on an application-specific model, enum, service or asset.
 | Document | Purpose |
 | --- | --- |
 | [Usage](addons/addressables/docs/USAGE.md) | Authoring, builds, development, delivery and complete GDScript/C# examples |
+| [Recipes](addons/addressables/docs/RECIPES.md) ([Vietnamese](addons/addressables/docs/RECIPES.vi.md)) | Minimal copy-paste cases: match load/release, shared assets, references, build |
 | [Architecture](addons/addressables/docs/ARCHITECTURE.md) | Editor/build/export/runtime flow, ownership, cancellation and memory |
 | [API reference](addons/addressables/docs/API.md) | Signatures, defaults, errors, statuses, C# facade and command-line tools |
 | [Content format](addons/addressables/docs/CONTENT_FORMAT.md) | Reference metadata, catalog schema, PCKs, export state and cache |
