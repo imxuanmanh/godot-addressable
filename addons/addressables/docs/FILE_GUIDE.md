@@ -71,7 +71,8 @@ bytes, joins same-store transfers by SHA, copies/downloads to store-specific
 partials, checks size/hash, commits cache and mounts dependencies first. Implements
 direct HTTPS/opt-in loopback, stalled-transfer timeout and close cleanup.
 Mounted SHA state is static/process-wide; resource ownership and disk cache are
-independent. Hashing/copying are synchronous and need real-size profiling.
+independent. Hashing runs on a worker thread; local copying and the synchronous
+size query still need real-size profiling.
 
 ## Editor and build files
 

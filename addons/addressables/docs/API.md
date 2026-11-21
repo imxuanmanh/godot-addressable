@@ -86,8 +86,18 @@ service reference. It does not load anything. See the scope contract below.
 `get_download_size(keys: Array) -> int` accepts references/keys and sums missing
 pack bytes over their deduplicated dependency closure. Returns `-1` for an unknown
 key or an unconfigured service. Mounted or valid cached packs contribute zero.
-This is neither per-asset RAM usage nor a byte progress stream. Cache hashing is
-synchronous, so query during setup/loading rather than every frame.
+This is neither per-asset RAM usage nor a byte progress stream. This variant
+hashes an unverified cache file on the calling thread, which stalls the frame for
+large packs (about 6 ms per MB measured on a mid-range phone). Prefer
+`get_download_size_async`; a file hashed earlier in the process is not hashed again
+unless its size or modification time changed.
+
+### get_download_size_async
+
+`await get_download_size_async(keys: Array) -> int` returns the same value as
+`get_download_size`, but hashes cache files on a worker thread so frames keep
+running. It also returns `-1` for a closed service or when the service closes during
+the check. `shutdown()` waits for these checks to finish.
 
 ### download_dependencies
 

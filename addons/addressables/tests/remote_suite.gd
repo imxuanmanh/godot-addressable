@@ -34,11 +34,14 @@ func _run() -> void:
 		broken.store_string("broken cached pack")
 		broken.close()
 		check(service.get_download_size(keys) == int(catalog.packs.group_a.size), "invalid cache must be fetched again")
+		check(await service.get_download_size_async(keys) == int(catalog.packs.group_a.size), "async size also rejects invalid cache")
 	if args[1] == "cold":
 		var expected := 0
 		for pack in catalog.packs.values():
 			expected += int(pack.size)
 		check(service.get_download_size(keys) == expected, "deduplicate shared download size")
+		check(await service.get_download_size_async(keys) == expected, "async size deduplicates shared downloads")
+		check(await service.get_download_size_async(["missing/key"]) == -1, "async size rejects an unknown key")
 		var download_error := await service.download_dependencies(keys)
 		check(download_error.is_empty(), "predownload: " + download_error)
 		if not download_error.is_empty():
@@ -47,6 +50,7 @@ func _run() -> void:
 		check(service._packs.downloads_started == 3, "download each pack once")
 	elif not args[1] in ["repair", "concurrent", "local"]:
 		check(service.get_download_size(keys) == 0, "valid disk cache requires zero download")
+		check(await service.get_download_size_async(keys) == 0, "async size sees a valid disk cache")
 	var a := service.load_asset("asset/a", "PackedScene")
 	var b := service.load_asset("asset/b", "PackedScene")
 	var alias := service.load_asset("asset/a", "PackedScene")

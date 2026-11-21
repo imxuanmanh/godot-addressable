@@ -13,12 +13,19 @@ const PackStore = preload("pack_store.gd")
 
 ## Internal state shared by the registry and handles; not a public API object.
 class Operation extends RefCounted:
+	## Resource path used to deduplicate acquisitions within this service.
 	var path := ""
+	## Shared loading, succeeded or failed state; release and type checks belong to each handle.
 	var status := "loading"
+	## Shared failure message; empty until the operation fails or its service closes.
 	var error := ""
+	## Latest ResourceLoader progress sample, excluding pack delivery.
 	var progress := 0.0
+	## Strong resource reference retained while the operation has owners and the service is open.
 	var result: Resource
+	## Number of unreleased handles sharing this operation, including failed handles.
 	var owners := 0
+	## Whether an engine request has started and still needs to be collected.
 	var threaded := false
 
 var _catalog: Dictionary = {}
@@ -171,9 +178,18 @@ func _release(operation: Operation) -> void:
 
 
 ## Return missing pack bytes, or -1 for an unknown key/unconfigured service.
-## Synchronous cache hashing can be expensive; do not call every frame.
+## Hashes unverified cache files on the calling thread, which can stall frames for large packs;
+## prefer get_download_size_async(). Files verified earlier in this process are not hashed again.
 func get_download_size(keys: Array) -> int:
 	return _packs.get_download_size(keys) if _packs != null else -1
+
+
+## Return missing pack bytes like get_download_size(), but hash cache files on a worker thread.
+## Returns -1 for an unknown key, an unconfigured/closed service, or a close during the check.
+func get_download_size_async(keys: Array) -> int:
+	if _packs == null or _closed:
+		return -1
+	return await _packs.get_download_size_async(keys)
 
 
 ## Cache and verify dependencies without mounting or loading Resources.
@@ -217,7 +233,8 @@ func close() -> void:
 ## Close and wait for pending resource/HTTP work; does not queue-free this Node or unmount packs.
 func shutdown() -> void:
 	close()
-	while (not _operations.is_empty() or (_packs != null and not _packs._pending.is_empty())) and is_inside_tree():
+	while (not _operations.is_empty() or (_packs != null and (not _packs._pending.is_empty() \
+			or _packs.active_hashes > 0))) and is_inside_tree():
 		await get_tree().process_frame
 
 

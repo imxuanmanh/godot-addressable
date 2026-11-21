@@ -173,7 +173,10 @@ files are fetched again. There is no range resume or automatic retry/backoff.
 The default 30-second timeout measures time without downloaded-byte progress,
 including an unresponsive connection. A slow transfer that keeps progressing can
 take longer. An overall user-facing deadline belongs to the application.
-Hashing and local copying are synchronous; profile representative pack sizes.
+Cache and download verification hashes on a worker thread, and a file already
+verified in this process (same size and modification time) is not hashed again.
+Local copying and the synchronous `get_download_size` still run on the calling
+thread; profile representative pack sizes.
 
 Mounting rejects existing declared resource paths and uses
 `load_resource_pack(..., false)`. Successful mounts are recorded process-wide by
