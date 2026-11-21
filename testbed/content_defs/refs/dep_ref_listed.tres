@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="AddressableReference" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/addressables/runtime/asset_reference.gd" id="reference"]
+
+[resource]
+script = ExtResource("reference")
+key = "res://assets/deps/skin_ref_listed.tscn"
+expected_type = "PackedScene"
+source_path = "res://assets/deps/skin_ref_listed.tscn"

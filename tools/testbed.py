@@ -80,6 +80,11 @@ def generate_assets() -> None:
         noise = random.Random(100 + index)
         write_png(skins / f"skin_{index}.png", 1024, 1024, lambda _y, n=noise: n.randbytes(1024 * 3))
         write_import(skins / f"skin_{index}.png.import")
+    deps = TESTBED / "assets" / "deps"
+    for name in "abc":
+        noise = random.Random(200 + ord(name))
+        write_png(deps / f"bullet_{name}.png", 128, 128, lambda _y, n=noise: n.randbytes(128 * 3))
+        write_import(deps / f"bullet_{name}.png.import")
     print("Generated test textures")
 
 
@@ -137,7 +142,7 @@ def main() -> int:
     builder.add_argument("--godot", required=True, type=Path)
     builder.set_defaults(handler=build)
     runner = commands.add_parser("run")
-    runner.add_argument("--test", choices=["mount", "match"], required=True)
+    runner.add_argument("--test", choices=["mount", "match", "deps"], required=True)
     runner.set_defaults(handler=run_test)
     args = parser.parse_args()
     return args.handler(args)

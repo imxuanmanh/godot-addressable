@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/deps/bullet_a.tscn" id="bullet"]
+
+[node name="SkinDirect" type="Node2D"]
+
+[node name="Bullet" parent="." instance=ExtResource("bullet")]

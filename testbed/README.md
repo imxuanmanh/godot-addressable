@@ -9,6 +9,7 @@ The repository root project remains the C# development project.
 | --- | --- |
 | `mount` | Download (HTTP or local copy), SHA-256 verification, mount, load, texture decoding, warm cache, frame stalls |
 | `match` | Match-style load/release of 8 skins: memory returns to baseline; textures stay while instances use them; a shared skin lives until its last owner releases |
+| `deps` | What gets bundled and loaded by kind of reference: a direct dependency travels in its parent's pack and loads with it; an `AddressableReference` target is not pulled in and loads on demand only if it is its own group root; an unlisted target stays in the base export and cannot be loaded by key |
 
 Tests need an **exported build**: with sources present (editor) the packs would
 collide with the existing files. Each test prints `TEST RESULT <name>: PASS|FAIL` and,
@@ -30,6 +31,7 @@ itself with `rmdir testbed\addons\addressables`; never delete it recursively.
 python tools/testbed.py build --platform windows --godot "PATH/TO/Godot_v4.7.1-stable_win64_console.exe"
 python tools/testbed.py run --test match
 python tools/testbed.py run --test mount
+python tools/testbed.py run --test deps
 ```
 
 The build imports, builds Windows content, exports to `testbed/build/windows/` and

@@ -4,6 +4,7 @@ extends Control
 const TESTS := {
 	"mount": ["Mount packs (download, verify, mount, load)", "res://tests/mount/mount_test.tscn"],
 	"match": ["Match load/release (memory returns to baseline)", "res://tests/match/match_test.tscn"],
+	"deps": ["Dependencies (direct vs reference, listed vs unlisted)", "res://tests/deps/deps_test.tscn"],
 }
 
 

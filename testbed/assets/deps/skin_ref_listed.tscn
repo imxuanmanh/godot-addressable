@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://assets/deps/skin_with_ref.gd" id="script"]
+[ext_resource type="Resource" path="res://assets/deps/bullet_b_ref.tres" id="ref"]
+
+[node name="SkinRefListed" type="Node2D"]
+script = ExtResource("script")
+bullet = ExtResource("ref")

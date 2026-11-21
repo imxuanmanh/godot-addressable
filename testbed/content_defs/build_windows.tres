@@ -1,20 +1,24 @@
-[gd_resource type="Resource" script_class="AddressablesBuild" load_steps=13 format=3]
+[gd_resource type="Resource" script_class="AddressablesBuild" load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://addons/addressables/editor/content_build.gd" id="build"]
 [ext_resource type="Script" path="res://addons/addressables/editor/content_group.gd" id="group"]
-[ext_resource type="Resource" path="res://content_defs/groups/mount_hero.tres" id="g0"]
-[ext_resource type="Resource" path="res://content_defs/groups/mount_big.tres" id="g1"]
-[ext_resource type="Resource" path="res://content_defs/groups/skin_0.tres" id="g2"]
-[ext_resource type="Resource" path="res://content_defs/groups/skin_1.tres" id="g3"]
-[ext_resource type="Resource" path="res://content_defs/groups/skin_2.tres" id="g4"]
-[ext_resource type="Resource" path="res://content_defs/groups/skin_3.tres" id="g5"]
-[ext_resource type="Resource" path="res://content_defs/groups/skin_4.tres" id="g6"]
-[ext_resource type="Resource" path="res://content_defs/groups/skin_5.tres" id="g7"]
-[ext_resource type="Resource" path="res://content_defs/groups/skin_6.tres" id="g8"]
-[ext_resource type="Resource" path="res://content_defs/groups/skin_7.tres" id="g9"]
+[ext_resource type="Resource" path="res://content_defs/groups/dep_bullet_b.tres" id="g0"]
+[ext_resource type="Resource" path="res://content_defs/groups/dep_direct.tres" id="g1"]
+[ext_resource type="Resource" path="res://content_defs/groups/dep_ref_listed.tres" id="g2"]
+[ext_resource type="Resource" path="res://content_defs/groups/dep_ref_unlisted.tres" id="g3"]
+[ext_resource type="Resource" path="res://content_defs/groups/mount_big.tres" id="g4"]
+[ext_resource type="Resource" path="res://content_defs/groups/mount_hero.tres" id="g5"]
+[ext_resource type="Resource" path="res://content_defs/groups/skin_0.tres" id="g6"]
+[ext_resource type="Resource" path="res://content_defs/groups/skin_1.tres" id="g7"]
+[ext_resource type="Resource" path="res://content_defs/groups/skin_2.tres" id="g8"]
+[ext_resource type="Resource" path="res://content_defs/groups/skin_3.tres" id="g9"]
+[ext_resource type="Resource" path="res://content_defs/groups/skin_4.tres" id="g10"]
+[ext_resource type="Resource" path="res://content_defs/groups/skin_5.tres" id="g11"]
+[ext_resource type="Resource" path="res://content_defs/groups/skin_6.tres" id="g12"]
+[ext_resource type="Resource" path="res://content_defs/groups/skin_7.tres" id="g13"]
 
 [resource]
 script = ExtResource("build")
-groups = Array[ExtResource("group")]([ExtResource("g0"), ExtResource("g1"), ExtResource("g2"), ExtResource("g3"), ExtResource("g4"), ExtResource("g5"), ExtResource("g6"), ExtResource("g7"), ExtResource("g8"), ExtResource("g9")])
+groups = Array[ExtResource("group")]([ExtResource("g0"), ExtResource("g1"), ExtResource("g2"), ExtResource("g3"), ExtResource("g4"), ExtResource("g5"), ExtResource("g6"), ExtResource("g7"), ExtResource("g8"), ExtResource("g9"), ExtResource("g10"), ExtResource("g11"), ExtResource("g12"), ExtResource("g13")])
 output_directory = "res://content/windows"
 target_platform = "Windows"

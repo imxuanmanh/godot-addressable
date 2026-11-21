@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AddressableGroup" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://addons/addressables/editor/content_group.gd" id="group"]
+[ext_resource type="Script" path="res://addons/addressables/runtime/asset_reference.gd" id="reference"]
+[ext_resource type="Resource" path="res://content_defs/refs/dep_ref_unlisted.tres" id="ref"]
+
+[resource]
+script = ExtResource("group")
+group_name = "dep_ref_unlisted"
+assets = Array[ExtResource("reference")]([ExtResource("ref")])
