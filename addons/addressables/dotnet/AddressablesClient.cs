@@ -12,6 +12,7 @@ public sealed class AddressablesClient : IDisposable
     private readonly Node _runtime;
     private bool _disposed;
 
+    /// <summary>Retain the configured runtime Node created by <see cref="Create"/>.</summary>
     private AddressablesClient(Node runtime) => _runtime = runtime;
 
     /// <summary>Create a child runtime Node and configure a catalog snapshot.</summary>
@@ -19,6 +20,7 @@ public sealed class AddressablesClient : IDisposable
     /// <param name="catalog">A valid schema-v1 catalog dictionary.</param>
     /// <param name="contentRoot">Local PCK directory or direct HTTPS content-directory URL.</param>
     /// <param name="useSourceAssets">Skip PCK preparation for development; catalog lookup is still required.</param>
+    /// <returns>A client that owns the configured child runtime Node.</returns>
     /// <exception cref="InvalidOperationException">Catalog validation or configuration failed.</exception>
     public static AddressablesClient Create(Node parent, Godot.Collections.Dictionary catalog,
         string contentRoot = "", bool useSourceAssets = false)
@@ -37,14 +39,21 @@ public sealed class AddressablesClient : IDisposable
 
     /// <summary>Acquire a separate token from an Inspector-assigned AddressableReference.</summary>
     /// <typeparam name="T">Expected Resource type, checked again by the C# result cast.</typeparam>
+    /// <param name="reference">Lightweight GDScript AddressableReference resource, not the target asset.</param>
+    /// <returns>A new ownership token to dispose after its consumer finishes.</returns>
+    /// <exception cref="ObjectDisposedException">The client has been disposed or shutdown has started.</exception>
     public AssetHandle<T> Load<T>(Resource reference) where T : Resource
         => Acquire<T>(reference);
 
     /// <summary>Acquire a catalog key; strings do not bypass the catalog as URLs or file paths.</summary>
+    /// <typeparam name="T">Expected Resource type, checked again by the C# result cast.</typeparam>
+    /// <param name="key">Exact identity recorded in the configured catalog.</param>
+    /// <returns>A new ownership token; unknown keys fail when awaiting its result.</returns>
+    /// <exception cref="ObjectDisposedException">The client has been disposed or shutdown has started.</exception>
     public AssetHandle<T> Load<T>(string key) where T : Resource
         => Acquire<T>(key);
 
-    // Script-defined types use a native Resource check followed by the C# T cast.
+    /// <summary>Acquire a runtime token using a native type hint; script-defined types are checked by the C# result cast.</summary>
     private AssetHandle<T> Acquire<T>(Variant reference) where T : Resource
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -54,6 +63,7 @@ public sealed class AddressablesClient : IDisposable
     }
 
     /// <summary>Close, await pending resource/HTTP work, then queue-free the runtime Node.</summary>
+    /// <returns>A task that completes after pending work drains and Node deletion is queued.</returns>
     /// <remarks>Does not dispose caller handles or instances. A second call returns immediately rather than joining the first task.</remarks>
     public async Task ShutdownAsync()
     {
@@ -66,6 +76,7 @@ public sealed class AddressablesClient : IDisposable
         _runtime.QueueFree();
     }
 
+    /// <summary>Check whether registered resource operations or pack transfers still need draining.</summary>
     private bool HasPendingWork()
     {
         var state = _runtime.Call("debug_snapshot").AsGodotDictionary();
@@ -92,6 +103,7 @@ public sealed class AssetHandle<T> : IDisposable where T : Resource
     private GodotObject? _handle;
     private readonly SceneTree _tree;
 
+    /// <summary>Wrap one GDScript acquisition token and the scene tree used to await its completion.</summary>
     internal AssetHandle(GodotObject handle, SceneTree tree)
         => (_handle, _tree) = (handle, tree);
 

@@ -7,8 +7,8 @@ import sys
 from pathlib import Path
 
 
-# Fail CI on an engine error or ERROR log even when native export returns zero.
 def main() -> int:
+    """Run the requested headless export; return 1 for engine failure or ERROR logs, else 0."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--godot", required=True, type=Path)
     parser.add_argument("--project", required=True, type=Path)

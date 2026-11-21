@@ -11,6 +11,7 @@ var _remove := Button.new()
 var _dialog: EditorFileDialog
 
 
+## Build the reference list and connect multi-file selection, drag/drop and removal.
 func _init() -> void:
 	var column := VBoxContainer.new()
 	add_child(column)
@@ -30,6 +31,7 @@ func _init() -> void:
 	add_focusable(_remove)
 
 
+## Disable collection edits; drag/drop uses the same state as the Add button.
 func _set_read_only(value: bool) -> void:
 	_add.disabled = value
 	_remove.disabled = value
@@ -50,6 +52,7 @@ func _can_drop_assets(_position: Vector2, data: Variant) -> bool:
 	return not _add.disabled and not paths.is_empty() and Array(paths).all(Single.is_valid_source)
 
 
+## Revalidate every dropped target before adding references to a replacement array.
 func _drop_assets(_position: Vector2, data: Variant) -> void:
 	if _can_drop_assets(Vector2.ZERO, data):
 		_add_paths(Single.paths_from_drop(data))

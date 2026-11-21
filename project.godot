@@ -18,6 +18,10 @@ config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 
 project/assembly_name="GodotAddressable"
 
+[editor_overrides]
+
+text_editor/external/use_external_editor=false
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/addressables/plugin.cfg")

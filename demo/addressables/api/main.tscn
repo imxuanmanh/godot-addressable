@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://diogqnopgccdx"]
 
-[ext_resource type="Script" path="res://demo/addressables/api/main.gd" id="main"]
-[ext_resource type="Resource" path="res://demo/addressables/api/references/sword.tres" id="sword"]
+[ext_resource type="Script" uid="uid://dptcivq1aot5r" path="res://demo/addressables/api/main.gd" id="main"]
 [ext_resource type="Resource" path="res://demo/addressables/api/references/shield.tres" id="shield"]
+[ext_resource type="Resource" path="res://demo/addressables/api/references/sword.tres" id="sword"]
 
-[node name="AddressablesApi" type="Node"]
+[node name="AddressablesApi" type="Node" unique_id=102542201]
 script = ExtResource("main")
 sword = ExtResource("sword")
 shield = ExtResource("shield")

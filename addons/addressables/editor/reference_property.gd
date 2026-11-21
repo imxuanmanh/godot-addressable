@@ -10,6 +10,7 @@ var _inspect := Button.new()
 var _dialog: EditorFileDialog
 
 
+## Build the reference controls and connect drag/drop, selection, clearing and inspection.
 func _init() -> void:
 	var row := HBoxContainer.new()
 	add_child(row)
@@ -53,6 +54,7 @@ func _can_drop_asset(_position: Vector2, data: Variant) -> bool:
 	return not _button.disabled and paths.size() == 1 and is_valid_source(paths[0])
 
 
+## Revalidate the drop and assign its single target through the Inspector's undo flow.
 func _drop_asset(_position: Vector2, data: Variant) -> void:
 	if _can_drop_asset(Vector2.ZERO, data):
 		_assign(paths_from_drop(data)[0])
