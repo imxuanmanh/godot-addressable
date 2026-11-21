@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("reference")
-key = "res://probe/assets/hero.tscn"
+key = "res://assets/skins/skin_3.tscn"
 expected_type = "PackedScene"
-source_path = "res://probe/assets/hero.tscn"
+source_path = "res://assets/skins/skin_3.tscn"

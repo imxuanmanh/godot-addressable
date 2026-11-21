@@ -22,3 +22,11 @@
 .DS_Store
 Thumbs.db
 .source-baseline.json
+
+# Testbed: addon junction, generated assets, content output and builds.
+/testbed/addons/
+/testbed/.godot/
+/testbed/content/
+/testbed/build/
+/testbed/assets/**/*.png
+/testbed/assets/**/*.png.import

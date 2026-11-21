@@ -16,6 +16,7 @@ addressable/                       # Any local checkout name is fine.
   README.md
   project.godot                    # Open this to develop and run the addon.
   demo/addressables/api/           # One log-only data-Resource example.
+  testbed/                         # One GDScript project for exported-build and on-device tests.
   addons/
     addressables/                  # Keep this addon path inside your Godot project.
       plugin.cfg
@@ -167,6 +168,9 @@ major is accepted; an older reader, different major or different platform is
 rejected. Unchanged 4.6.3-built demo PCKs were also loaded on 4.7.2 in a clean
 client. The native loader still validates the actual PCK/resource formats; test
 your own content when upgrading. See the [compatibility policy](addons/addressables/docs/CONTENT_FORMAT.md).
+
+Exported-build and on-device checks (Windows, Android, load/release memory) live in
+[testbed/](testbed/README.md); it works with a standard or .NET 4.6+ editor.
 
 ## Experimental limitations
 

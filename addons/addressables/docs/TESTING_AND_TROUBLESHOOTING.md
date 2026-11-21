@@ -143,6 +143,13 @@ Verified locally: complete native/C# suites on 4.6.3 and 4.7.2, plus unchanged
 4.6.3-built demo scenes/imported shared texture loaded by 4.7.2. This does not
 certify arbitrary future minors or all import formats/platforms.
 
+## Testbed project
+
+`testbed/` in the repository is one GDScript project for exported-build checks that
+the generated native suite cannot make: pack delivery on a real Android device and
+match-style load/release memory behavior. See its README for the commands.
+Verified so far: Windows (4.7.1) and an Adreno 710 phone (4.7.1), mount and match tests pass.
+
 ## Manual validation before a real release
 
 Test the intended device and import/export profile, not just a desktop catalog

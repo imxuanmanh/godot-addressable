@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("reference")
-key = "res://probe/assets/big.png"
-expected_type = "Texture2D"
-source_path = "res://probe/assets/big.png"
+key = "res://assets/mount/hero.tscn"
+expected_type = "PackedScene"
+source_path = "res://assets/mount/hero.tscn"
